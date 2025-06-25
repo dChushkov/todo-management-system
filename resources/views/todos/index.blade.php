@@ -336,12 +336,13 @@ function todoApp() {
                     body: JSON.stringify(this.form)
                 });
                 
-                showToast('Todo created successfully!');
+                showToast('Todo created successfully!', 'success');
                 this.closeModal();
                 await this.loadTodos();
                 await this.loadStats();
             } catch (error) {
                 console.error('Failed to create todo:', error);
+                showToast('Failed to create todo. Please try again.', 'error');
             }
         },
         
@@ -352,11 +353,12 @@ function todoApp() {
                     body: JSON.stringify(this.form)
                 });
                 
-                showToast('Todo updated successfully!');
+                showToast('Todo updated successfully!', 'success');
                 this.closeModal();
                 await this.loadTodos();
             } catch (error) {
                 console.error('Failed to update todo:', error);
+                showToast('Failed to update todo. Please try again.', 'error');
             }
         },
         
@@ -368,11 +370,12 @@ function todoApp() {
                     method: 'DELETE'
                 });
                 
-                showToast('Todo deleted successfully!');
+                showToast('Todo deleted successfully!', 'success');
                 await this.loadTodos();
                 await this.loadStats();
             } catch (error) {
                 console.error('Failed to delete todo:', error);
+                showToast('Failed to delete todo. Please try again.', 'error');
             }
         },
         
@@ -384,11 +387,12 @@ function todoApp() {
                 
                 await apiRequest(url, { method: 'PATCH' });
                 
-                showToast(todo.is_completed ? 'Todo marked as incomplete' : 'Todo marked as completed');
+                showToast(todo.is_completed ? 'Todo marked as incomplete' : 'Todo marked as completed', 'success');
                 await this.loadTodos();
                 await this.loadStats();
             } catch (error) {
                 console.error('Failed to toggle todo:', error);
+                showToast('Failed to update todo status. Please try again.', 'error');
             }
         },
         

@@ -62,13 +62,15 @@ document.getElementById('register-form').addEventListener('submit', async functi
             method: 'POST',
             body: JSON.stringify({ name, email, password })
         });
-        showToast('Registration successful!');
+        showToast('Registration successful!', 'success');
         setTimeout(() => {
             window.location.href = '/login';
         }, 1000);
     } catch (error) {
         hideLoading();
         console.error('Registration failed:', error);
+        // Show error message with error type
+        showToast(error.message || 'Registration failed. Please try again.', 'error');
     }
 });
 </script>

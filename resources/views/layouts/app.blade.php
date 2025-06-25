@@ -53,8 +53,13 @@
         <div class="bg-white border-l-4 border-green-500 shadow-lg rounded-lg p-4 max-w-sm">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
-                    <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+                    <!-- Success Icon -->
+                    <svg id="success-icon" class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                    <!-- Error Icon -->
+                    <svg id="error-icon" class="h-5 w-5 text-red-400 hidden" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
                     </svg>
                 </div>
                 <div class="ml-3">
@@ -92,13 +97,20 @@
             const toast = document.getElementById('toast');
             const toastMessage = document.getElementById('toast-message');
             const toastBox = toast.querySelector('div.bg-white');
-            // Set color
+            const successIcon = document.getElementById('success-icon');
+            const errorIcon = document.getElementById('error-icon');
+            
+            // Set color and icon
             if (type === 'error') {
                 toastBox.classList.remove('border-green-500');
                 toastBox.classList.add('border-red-500');
+                successIcon.classList.add('hidden');
+                errorIcon.classList.remove('hidden');
             } else {
                 toastBox.classList.remove('border-red-500');
                 toastBox.classList.add('border-green-500');
+                successIcon.classList.remove('hidden');
+                errorIcon.classList.add('hidden');
             }
             toastMessage.textContent = message;
             toast.classList.remove('hidden');

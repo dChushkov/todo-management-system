@@ -69,7 +69,7 @@ document.getElementById('login-form').addEventListener('submit', async function(
             body: JSON.stringify({ email, password })
         });
         
-        showToast('Login successful!');
+        showToast('Login successful!', 'success');
         
         // Redirect to todos page
         setTimeout(() => {
@@ -79,6 +79,8 @@ document.getElementById('login-form').addEventListener('submit', async function(
     } catch (error) {
         hideLoading();
         console.error('Login failed:', error);
+        // Show error message with error type
+        showToast(error.message || 'Login failed. Please check your credentials.', 'error');
     }
 });
 </script>
