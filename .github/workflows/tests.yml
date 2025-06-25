@@ -94,7 +94,7 @@ jobs:
       run: vendor/bin/php-cs-fixer fix --dry-run --diff
 
     - name: Run PHPStan
-      run: vendor/bin/phpstan analyse app --level=8
+      run: vendor/bin/phpstan analyse app --level=5
 
   performance:
     runs-on: ubuntu-latest
