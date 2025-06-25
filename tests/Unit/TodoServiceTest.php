@@ -72,7 +72,7 @@ class TodoServiceTest extends TestCase
 
         // Assert: Only todos from category1 should be returned
         $this->assertEquals(2, $todos->total());
-        $this->assertTrue(collect($todos->items())->every(fn($todo) => $todo->category_id === $category1->id));
+        $this->assertTrue(collect($todos->items())->every(fn ($todo) => $todo->category_id === $category1->id));
     }
 
     /**
@@ -103,8 +103,8 @@ class TodoServiceTest extends TestCase
         // Assert: Correct filtering
         $this->assertEquals(2, $completedTodos->total());
         $this->assertEquals(3, $pendingTodos->total());
-        $this->assertTrue(collect($completedTodos->items())->every(fn($todo) => $todo->isCompleted()));
-        $this->assertTrue(collect($pendingTodos->items())->every(fn($todo) => !$todo->isCompleted()));
+        $this->assertTrue(collect($completedTodos->items())->every(fn ($todo) => $todo->isCompleted()));
+        $this->assertTrue(collect($pendingTodos->items())->every(fn ($todo) => !$todo->isCompleted()));
     }
 
     /**
@@ -133,7 +133,7 @@ class TodoServiceTest extends TestCase
 
         // Assert: Only HIGH priority todos should be returned
         $this->assertEquals(2, $highPriorityTodos->total());
-        $this->assertTrue(collect($highPriorityTodos->items())->every(fn($todo) => $todo->priority === Priority::HIGH));
+        $this->assertTrue(collect($highPriorityTodos->items())->every(fn ($todo) => $todo->priority === Priority::HIGH));
     }
 
     /**
@@ -317,4 +317,4 @@ class TodoServiceTest extends TestCase
             $this->assertEquals(2, $workStats->pending_todos);
         }
     }
-} 
+}

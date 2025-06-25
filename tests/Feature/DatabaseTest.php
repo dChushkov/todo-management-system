@@ -25,7 +25,7 @@ class DatabaseTest extends TestCase
 
         // Assert: Check that all required columns exist
         $requiredColumns = [
-            'id', 'user_id', 'category_id', 'title', 'description', 
+            'id', 'user_id', 'category_id', 'title', 'description',
             'priority', 'completed_at', 'created_at', 'updated_at'
         ];
 
@@ -48,7 +48,7 @@ class DatabaseTest extends TestCase
 
         // Assert: Check that all required columns exist
         $requiredColumns = [
-            'id', 'name', 'email', 'email_verified_at', 'password', 
+            'id', 'name', 'email', 'email_verified_at', 'password',
             'remember_token', 'created_at', 'updated_at'
         ];
 
@@ -119,7 +119,7 @@ class DatabaseTest extends TestCase
         // Arrange: Create user and their todos
         $user = User::factory()->create();
         $category = Category::factory()->create();
-        
+
         $todos = Todo::factory()->count(3)->create([
             'user_id' => $user->id,
             'category_id' => $category->id
@@ -145,7 +145,7 @@ class DatabaseTest extends TestCase
         // Arrange: Create category and todos
         $user = User::factory()->create();
         $category = Category::factory()->create();
-        
+
         $todos = Todo::factory()->count(3)->create([
             'user_id' => $user->id,
             'category_id' => $category->id
@@ -239,20 +239,20 @@ class DatabaseTest extends TestCase
         // Check that the migration file exists and contains index definitions
         $migrationFile = database_path('migrations/2025_06_24_145929_create_todos_table.php');
         $this->assertFileExists($migrationFile);
-        
+
         $migrationContent = file_get_contents($migrationFile);
-        
+
         // Assert: Migration contains index definitions
         $this->assertStringContainsString('$table->index', $migrationContent);
         $this->assertStringContainsString('user_id', $migrationContent);
         $this->assertStringContainsString('category_id', $migrationContent);
         $this->assertStringContainsString('priority', $migrationContent);
         $this->assertStringContainsString('completed_at', $migrationContent);
-        
+
         // Assert: Foreign key constraints are defined
         $this->assertStringContainsString('foreignId', $migrationContent);
         $this->assertStringContainsString('constrained', $migrationContent);
-        
+
         // Note: Laravel doesn't expose custom indexes easily in tests
         // In a real scenario, you might check the migration file directly
         // or use raw SQL to check indexes
@@ -269,7 +269,7 @@ class DatabaseTest extends TestCase
 
         // Act & Assert: Try to create another user with same email
         $this->expectException(\Illuminate\Database\QueryException::class);
-        
+
         User::factory()->create(['email' => 'test@example.com']);
     }
 
@@ -285,7 +285,7 @@ class DatabaseTest extends TestCase
 
         // Act & Assert: Try to create todo without required fields
         $this->expectException(\Illuminate\Database\QueryException::class);
-        
+
         Todo::create([
             'user_id' => $user->id,
             'category_id' => $category->id,
@@ -382,8 +382,8 @@ class DatabaseTest extends TestCase
 
         // Assert: Todo is completely removed from database
         $this->assertDatabaseMissing('todos', ['id' => $todoId]);
-        
+
         // Assert: No soft delete columns exist
         $this->assertFalse(Schema::hasColumn('todos', 'deleted_at'));
     }
-} 
+}

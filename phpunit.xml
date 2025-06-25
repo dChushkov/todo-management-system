@@ -3,16 +3,12 @@
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.0/phpunit.xsd"
          bootstrap="vendor/autoload.php"
          colors="true"
-         verbose="true"
          stopOnFailure="false">
     <testsuites>
         <testsuite name="Performance">
             <directory>tests/Performance/</directory>
         </testsuite>
     </testsuites>
-    <source>
-        <directory>app/</directory>
-    </source>
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
@@ -25,6 +21,9 @@
         <env name="TELESCOPE_ENABLED" value="false"/>
     </php>
     <coverage>
+        <include>
+            <directory>app/</directory>
+        </include>
         <report>
             <html outputDirectory="coverage/html/"/>
             <clover outputFile="coverage.xml"/>

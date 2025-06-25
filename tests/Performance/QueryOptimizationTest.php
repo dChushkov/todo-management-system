@@ -32,7 +32,7 @@ class QueryOptimizationTest extends TestCase
         // Arrange: Create user, category and multiple todos
         $user = User::factory()->create();
         $category = Category::factory()->create();
-        
+
         // Create 10 todos to make N+1 problem visible
         Todo::factory()->count(10)->create([
             'user_id' => $user->id,
@@ -50,7 +50,9 @@ class QueryOptimizationTest extends TestCase
 
         // Assert: Should have reasonable number of queries (not N+1)
         // Expected: 2-3 queries (1 for todos, 1 for categories, maybe 1 for pagination)
-        $this->assertLessThan(5, $queryCount, 
+        $this->assertLessThan(
+            5,
+            $queryCount,
             "N+1 problem detected! Found {$queryCount} queries for 10 todos. Expected less than 5."
         );
 
@@ -72,7 +74,7 @@ class QueryOptimizationTest extends TestCase
         // Arrange: Create user, category and multiple todos
         $user = User::factory()->create();
         $category = Category::factory()->create();
-        
+
         Todo::factory()->count(10)->create([
             'user_id' => $user->id,
             'category_id' => $category->id
@@ -94,7 +96,9 @@ class QueryOptimizationTest extends TestCase
 
         // Assert: Should have many queries (N+1 problem)
         // Expected: 1 + N queries (1 for todos + 1 for each category access)
-        $this->assertGreaterThan(10, $queryCount, 
+        $this->assertGreaterThan(
+            10,
+            $queryCount,
             "Expected N+1 problem but found only {$queryCount} queries for 10 todos."
         );
 
@@ -112,7 +116,7 @@ class QueryOptimizationTest extends TestCase
         $user = User::factory()->create();
         $category1 = Category::factory()->create();
         $category2 = Category::factory()->create();
-        
+
         // Create todos in different categories
         Todo::factory()->count(5)->create([
             'user_id' => $user->id,
@@ -133,13 +137,15 @@ class QueryOptimizationTest extends TestCase
         $queryCount = count(DB::getQueryLog());
 
         // Assert: Should still have reasonable number of queries
-        $this->assertLessThan(5, $queryCount, 
+        $this->assertLessThan(
+            5,
+            $queryCount,
             "Filtering added too many queries! Found {$queryCount} queries."
         );
 
         // Verify filtering worked correctly
         $this->assertEquals(5, $todos->total());
-        $this->assertTrue(collect($todos->items())->every(fn($todo) => $todo->category_id === $category1->id));
+        $this->assertTrue(collect($todos->items())->every(fn ($todo) => $todo->category_id === $category1->id));
 
         // Disable query log
         DB::disableQueryLog();
@@ -154,7 +160,7 @@ class QueryOptimizationTest extends TestCase
         // Arrange: Create many todos
         $user = User::factory()->create();
         $category = Category::factory()->create();
-        
+
         Todo::factory()->count(50)->create([
             'user_id' => $user->id,
             'category_id' => $category->id
@@ -170,7 +176,9 @@ class QueryOptimizationTest extends TestCase
         $queryCount = count(DB::getQueryLog());
 
         // Assert: Should still have reasonable number of queries
-        $this->assertLessThan(5, $queryCount, 
+        $this->assertLessThan(
+            5,
+            $queryCount,
             "Pagination added too many queries! Found {$queryCount} queries."
         );
 
@@ -193,7 +201,7 @@ class QueryOptimizationTest extends TestCase
         $user = User::factory()->create();
         $category1 = Category::factory()->create();
         $category2 = Category::factory()->create();
-        
+
         // Create todos in different categories and statuses
         Todo::factory()->count(20)->create([
             'user_id' => $user->id,
@@ -222,7 +230,9 @@ class QueryOptimizationTest extends TestCase
 
         // Assert: Should have reasonable number of queries
         // Expected: 3-4 queries (2 raw SQL + 1-2 Eloquent queries)
-        $this->assertLessThan(6, $queryCount, 
+        $this->assertLessThan(
+            6,
+            $queryCount,
             "Statistics query is inefficient! Found {$queryCount} queries."
         );
 
@@ -248,7 +258,7 @@ class QueryOptimizationTest extends TestCase
         // Arrange: Create user and todos with different attributes
         $user = User::factory()->create();
         $category = Category::factory()->create();
-        
+
         // Create todos with different priorities and statuses
         Todo::factory()->count(10)->create([
             'user_id' => $user->id,
@@ -268,9 +278,9 @@ class QueryOptimizationTest extends TestCase
 
         // Act: Apply multiple filters
         $todos = $this->todoService->getTodosWithCategory(
-            $user, 
-            $category->id, 
-            'completed', 
+            $user,
+            $category->id,
+            'completed',
             'HIGH'
         );
 
@@ -278,13 +288,15 @@ class QueryOptimizationTest extends TestCase
         $queryCount = count(DB::getQueryLog());
 
         // Assert: Should still have reasonable number of queries
-        $this->assertLessThan(5, $queryCount, 
+        $this->assertLessThan(
+            5,
+            $queryCount,
             "Multiple filters caused query explosion! Found {$queryCount} queries."
         );
 
         // Verify filtering worked correctly
         $this->assertEquals(10, $todos->total());
-        $failed = collect($todos->items())->filter(function($todo) use ($category) {
+        $failed = collect($todos->items())->filter(function ($todo) use ($category) {
             return !(
                 $todo->category_id === $category->id &&
                 $todo->priority === Priority::HIGH &&
@@ -306,7 +318,7 @@ class QueryOptimizationTest extends TestCase
         // Arrange: Create many users and todos
         $users = User::factory()->count(5)->create();
         $category = Category::factory()->create();
-        
+
         // Create todos for each user
         foreach ($users as $user) {
             Todo::factory()->count(20)->create([
@@ -325,13 +337,15 @@ class QueryOptimizationTest extends TestCase
         $queryCount = count(DB::getQueryLog());
 
         // Assert: Should be efficient even with many users
-        $this->assertLessThan(5, $queryCount, 
+        $this->assertLessThan(
+            5,
+            $queryCount,
             "Database indexes not effective! Found {$queryCount} queries."
         );
 
         // Verify correct todos returned
         $this->assertEquals(20, $todos->total());
-        $this->assertTrue(collect($todos->items())->every(fn($todo) => $todo->user_id === $users->first()->id));
+        $this->assertTrue(collect($todos->items())->every(fn ($todo) => $todo->user_id === $users->first()->id));
 
         // Disable query log
         DB::disableQueryLog();
@@ -346,7 +360,7 @@ class QueryOptimizationTest extends TestCase
         // Arrange: Create user and todos
         $user = User::factory()->create();
         $category = Category::factory()->create();
-        
+
         Todo::factory()->count(100)->create([
             'user_id' => $user->id,
             'category_id' => $category->id
@@ -365,7 +379,9 @@ class QueryOptimizationTest extends TestCase
         $queryCount = count(DB::getQueryLog());
 
         // Assert: Should handle concurrent requests efficiently
-        $this->assertLessThan(25, $queryCount, 
+        $this->assertLessThan(
+            25,
+            $queryCount,
             "Concurrent access performance issue! Found {$queryCount} queries for 5 requests."
         );
 
@@ -378,4 +394,4 @@ class QueryOptimizationTest extends TestCase
         // Disable query log
         DB::disableQueryLog();
     }
-} 
+}

@@ -38,4 +38,4 @@ class PageController extends Controller
     {
         return view('home');
     }
-} 
+}

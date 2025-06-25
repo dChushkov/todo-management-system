@@ -16,7 +16,8 @@ class TodoController extends Controller
 {
     public function __construct(
         private TodoService $todoService
-    ) {}
+    ) {
+    }
 
     public function index(Request $request): JsonResponse
     {

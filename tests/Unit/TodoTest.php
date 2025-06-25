@@ -129,7 +129,7 @@ class TodoTest extends TestCase
         // Arrange: Create categories and todos
         $category1 = Category::factory()->create();
         $category2 = Category::factory()->create();
-        
+
         $todo1 = Todo::factory()->create(['category_id' => $category1->id]);
         $todo2 = Todo::factory()->create(['category_id' => $category2->id]);
 
@@ -189,4 +189,4 @@ class TodoTest extends TestCase
         $this->assertInstanceOf(\Carbon\Carbon::class, $todo->completed_at);
         $this->assertEquals($completedAt->timestamp, $todo->completed_at->timestamp);
     }
-} 
+}

@@ -25,4 +25,4 @@ enum Priority: string
             self::HIGH => 'red',
         };
     }
-} 
+}

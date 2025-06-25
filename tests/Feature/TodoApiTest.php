@@ -46,7 +46,7 @@ class TodoApiTest extends TestCase
             ->assertJsonStructure([
                 'message',
                 'todo' => [
-                    'id', 'title', 'description', 'priority', 'priority_label', 
+                    'id', 'title', 'description', 'priority', 'priority_label',
                     'priority_color', 'category', 'created_at'
                 ]
             ])
@@ -145,7 +145,8 @@ class TodoApiTest extends TestCase
         $response->assertStatus(200);
         $this->assertCount(2, $response->json('todos'));
         $this->assertTrue(
-            collect($response->json('todos'))->every(fn($todo) => 
+            collect($response->json('todos'))->every(
+                fn ($todo) =>
                 $todo['category']['id'] === $category1->id
             )
         );
@@ -186,12 +187,14 @@ class TodoApiTest extends TestCase
 
         // Check that all returned todos have correct status
         $this->assertTrue(
-            collect($completedResponse->json('todos'))->every(fn($todo) => 
+            collect($completedResponse->json('todos'))->every(
+                fn ($todo) =>
                 $todo['is_completed'] === true
             )
         );
         $this->assertTrue(
-            collect($pendingResponse->json('todos'))->every(fn($todo) => 
+            collect($pendingResponse->json('todos'))->every(
+                fn ($todo) =>
                 $todo['is_completed'] === false
             )
         );
@@ -441,7 +444,7 @@ class TodoApiTest extends TestCase
         // Check that our newly created categories are in the response
         $responseCategories = $response->json('categories');
         $this->assertGreaterThanOrEqual(3, count($responseCategories));
-        
+
         // Verify our specific categories exist
         foreach ($categories as $category) {
             $this->assertTrue(
@@ -484,4 +487,4 @@ class TodoApiTest extends TestCase
         $response2->assertStatus(200);
         $this->assertEquals(2, $response2->json('pagination.current_page'));
     }
-} 
+}
