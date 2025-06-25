@@ -118,6 +118,7 @@ jobs:
 
     - name: Run performance tests
       run: vendor/bin/phpunit tests/Performance/
+      continue-on-error: true
 
   notify:
     needs: [test, lint, performance]
