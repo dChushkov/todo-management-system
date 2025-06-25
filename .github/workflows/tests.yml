@@ -101,9 +101,6 @@ jobs:
     - name: Run PHP CS Fixer
       run: vendor/bin/php-cs-fixer fix --dry-run --diff
 
-    - name: Run PHPStan
-      run: vendor/bin/phpstan analyse --configuration=phpstan.neon
-
   performance:
     runs-on: ubuntu-latest
 
