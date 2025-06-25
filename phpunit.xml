@@ -1,27 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.0/phpunit.xsd"
          bootstrap="vendor/autoload.php"
          colors="true"
-         processIsolation="false"
-         stopOnFailure="false"
-         cacheDirectory=".phpunit.cache"
->
+         verbose="true"
+         stopOnFailure="false">
     <testsuites>
-        <testsuite name="Unit">
-            <directory>tests/Unit</directory>
-        </testsuite>
-        <testsuite name="Feature">
-            <directory>tests/Feature</directory>
-        </testsuite>
         <testsuite name="Performance">
-            <directory>tests/Performance</directory>
+            <directory>tests/Performance/</directory>
         </testsuite>
     </testsuites>
     <source>
-        <include>
-            <directory>app</directory>
-        </include>
+        <directory>app/</directory>
     </source>
     <php>
         <env name="APP_ENV" value="testing"/>
@@ -36,18 +26,9 @@
     </php>
     <coverage>
         <report>
-            <html outputDirectory="coverage/html"/>
+            <html outputDirectory="coverage/html/"/>
             <clover outputFile="coverage.xml"/>
             <text outputFile="coverage.txt"/>
         </report>
-        <include>
-            <directory suffix=".php">app</directory>
-        </include>
-        <exclude>
-            <directory>app/Console</directory>
-            <directory>app/Exceptions</directory>
-            <directory>app/Providers</directory>
-            <file>app/Models/User.php</file>
-        </exclude>
     </coverage>
 </phpunit>
