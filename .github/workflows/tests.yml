@@ -55,6 +55,14 @@ jobs:
         echo "SESSION_DRIVER=array" >> .env
         echo "QUEUE_DRIVER=sync" >> .env
 
+    - name: Wait for MySQL
+      run: |
+        for i in {1..30}; do
+          if mysqladmin ping -h"$DB_HOST" --silent; then
+            break
+          fi
+          sleep 1
+        done
     - name: Run migrations
       run: php artisan migrate --force
 
